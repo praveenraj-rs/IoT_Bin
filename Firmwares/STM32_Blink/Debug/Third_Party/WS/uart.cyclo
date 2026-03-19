@@ -1,0 +1,6 @@
+../Third_Party/WS/uart.c:6:6:UART2_Init	1
+../Third_Party/WS/uart.c:32:6:UART2_SendChar	2
+../Third_Party/WS/uart.c:38:6:UART2_SendString	2
+../Third_Party/WS/uart.c:46:6:UART2_SendInt	1
+../Third_Party/WS/uart.c:53:5:UART2_Available	1
+../Third_Party/WS/uart.c:58:6:UART2_Read	1

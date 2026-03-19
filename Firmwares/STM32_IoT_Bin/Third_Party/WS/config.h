@@ -13,4 +13,4 @@
 // #define UART2_BAUD_RATE 0x0116;  //57600  @16MHz
 // #define UART2_BAUD_RATE 0x008B;  //115200 @16MHz
 
-#endif /* CONFIG_H_ */
+#endif // CONFIG_H_

@@ -4,10 +4,10 @@
 
 #define SysClk 16000000U
 
-#define TRIG_PIN     12
-#define ECHO_PIN_B1  13
-#define ECHO_PIN_B2  14
-#define ECHO_PIN_B3  15
+#define TRIG_PIN     12 //PB12
+#define ECHO_PIN_B1  13 //PB13
+#define ECHO_PIN_B2  14 //PB14
+#define ECHO_PIN_B3  15 //PB15
 
 /* ================= TIMER INIT ================= */
 

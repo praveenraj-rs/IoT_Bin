@@ -1,12 +1,24 @@
-#include "stm32f4xx.h"
+// Ultrasonic Sensor Distance and Fill Level
+
+#include <stm32f4xx.h>
 #include <stdint.h>
+
 #include "uart.h"
 #include "timer.h"
+#include "ultrasonic.h"
+
+#define BIN_HEIGHT_CM 40
 
 int main(void)
 {
     TIM3_Delay_Init();
     UART2_Init();
+
+    TIM2_Ultrasonic_Init();
+    Ultrasonic_Init();
+
+    int8_t distance = 0;
+    uint8_t fill = 0;
 
     while (1)
     {

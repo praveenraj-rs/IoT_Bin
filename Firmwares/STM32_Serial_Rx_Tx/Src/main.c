@@ -1,6 +1,13 @@
-#include "stm32f4xx.h"
-#include <stdint.h>
+// Serial Communication with UART2
 
+// UART_2 Serial Communication Nucleo
+// UART_2 Tx -> PA2
+// UART_2 Rx -> PA3
+
+
+#include <stm32f4xx.h>
+
+#include "config.h"
 #include "uart.h"
 #include "timer.h"
 
@@ -36,7 +43,7 @@ uint8_t UART_ReadCommand(char **out_cmd)
             if (index < BUFFER_SIZE - 1)
             {
                 cmd[index++] = c;
-                UART2_SendChar(c);   // optional echo
+                // UART2_SendChar(c);   // optional echo
             }
             else
             {
