@@ -1,4 +1,4 @@
-#include "esp_camera.h"
+  #include "esp_camera.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
 
@@ -7,7 +7,7 @@ const char* ssid = "praveenrajrs";
 const char* password = "12345678";
 
 /* SERVER */
-String serverURL = "http://192.168.30.95:5000/upload";
+String serverURL = "http://192.168.30.9:5000/upload";
 
 /* FLASH LED */
 #define FLASH_LED_PIN 4
