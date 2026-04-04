@@ -1,0 +1,4 @@
+/home/praveenrajrs/Desktop/IoT_Bin/Firmwares/STM32_Firmware/Third_Party/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Src/main.c:12:6:PIR_EXTI0_Init	8	static
+../Src/main.c:29:6:EXTI0_IRQHandler	4	static
+../Src/main.c:39:5:main	80	static

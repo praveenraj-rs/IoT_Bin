@@ -1,0 +1,2 @@
+../Src/servo.c:17:6:Servo_TIM1_Init	4	static
+../Src/servo.c:71:6:Servo_SetAngle	24	static

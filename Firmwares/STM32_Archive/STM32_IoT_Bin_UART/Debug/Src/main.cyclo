@@ -1,0 +1,10 @@
+/home/praveenrajrs/Desktop/IoT_Bin/Firmwares/STM32_IoT_Bin_UART/Third_Party/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	2
+../Src/main.c:52:6:PIR_EXTI0_Init	1
+../Src/main.c:69:6:EXTI0_IRQHandler	2
+../Src/main.c:79:6:Servo_Open	2
+../Src/main.c:88:6:Servo_Close	2
+../Src/main.c:98:9:UART1_ReadCommand	6
+../Src/main.c:131:13:Measure_UserDistance	2
+../Src/main.c:145:6:Bin_Operate	1
+../Src/main.c:164:6:Process_Command	4
+../Src/main.c:180:5:main	6

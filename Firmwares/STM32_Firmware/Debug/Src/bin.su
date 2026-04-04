@@ -1,0 +1,6 @@
+../Src/bin.c:15:6:Bin_Init	8	static
+../Src/bin.c:26:6:UserToBin_Distance	16	static
+../Src/bin.c:40:6:Process_Command	16	static
+../Src/bin.c:54:6:Bin_Operate	64	static
+../Src/bin.c:75:6:Servo_Open	24	static
+../Src/bin.c:84:6:Servo_Close	24	static

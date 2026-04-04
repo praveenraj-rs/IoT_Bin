@@ -1,0 +1,6 @@
+../Src/bin.c:15:6:Bin_Init	1
+../Src/bin.c:26:6:UserToBin_Distance	2
+../Src/bin.c:40:6:Process_Command	4
+../Src/bin.c:54:6:Bin_Operate	1
+../Src/bin.c:75:6:Servo_Open	2
+../Src/bin.c:84:6:Servo_Close	2

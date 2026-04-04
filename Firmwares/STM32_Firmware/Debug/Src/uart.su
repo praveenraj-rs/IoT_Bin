@@ -1,0 +1,7 @@
+../Src/uart.c:15:6:UART1_Init	4	static
+../Src/uart.c:44:6:UART1_SendChar	16	static
+../Src/uart.c:51:6:UART1_SendString	16	static
+../Src/uart.c:60:6:UART1_SendInt	40	static
+../Src/uart.c:68:5:UART1_Available	4	static
+../Src/uart.c:74:6:UART1_Read	4	static
+../Src/uart.c:80:9:UART1_ReadString	32	static
