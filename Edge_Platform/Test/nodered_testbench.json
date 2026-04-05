@@ -1,0 +1,22 @@
+[
+    {
+        "id": "file_node",
+        "type": "file in",
+        "z": "7112f84ec11eca5e",
+        "name": "Read Image",
+        "filename": "/home/praveenrajrs/Desktop/IoT_Bin/Edge_Platform/Test/test1.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 360,
+        "wires": [
+            [
+                "http_img"
+            ]
+        ]
+    }
+]

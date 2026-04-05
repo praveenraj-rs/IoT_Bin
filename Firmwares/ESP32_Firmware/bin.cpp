@@ -71,7 +71,7 @@ static String LabelToBinToken(const String& label)
 void ReportFillToEdge(const String& fillMsg)
 {
     int colon = fillMsg.indexOf(':');
-    if (colon < 4) // Parse error
+    if (colon < 4)
     {
         return;
     }
@@ -79,16 +79,29 @@ void ReportFillToEdge(const String& fillMsg)
     uint8_t bin  = fillMsg.substring(4, colon).toInt();
     uint8_t fill = fillMsg.substring(colon + 1).toInt();
 
-    char payload[48];
+    // ✅ Convert bin → color
+    const char* color = "";
+
+    switch(bin)
+    {
+        case 1: color = "red"; break;
+        case 2: color = "green"; break;
+        case 3: color = "blue"; break;
+        default: color = "unknown"; break;
+    }
+
+    char payload[96];
+
+    // ✅ Match Flask server format
     snprintf(payload, sizeof(payload),
-             "{\"bin\":%d,\"fill\":%d}", bin, fill);
+             "{\"dustbin_id\":%d,\"subdivision\":\"%s\",\"fill_level\":%d}",
+             DUSTBIN_ID, color, fill);
 
     HTTPClient http;
     configureHTTPS(http, EDGE_FILL_URL);
     http.addHeader("Content-Type", "application/json");
 
     int code = http.POST((uint8_t*)payload, strlen(payload));
-    //DebugSerial.printf("[HTTP] /bin_fill → %d\n", code);
 
     http.end();
 }

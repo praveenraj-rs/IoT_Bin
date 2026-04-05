@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Dustbin Monitoring Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0d0f14;
+            --surface: #161922;
+            --surface2: #1e2230;
+            --border: #2a2f42;
+            --text: #e8eaf0;
+            --muted: #6b7280;
+            --red: #ff4d6a;
+            --red-soft: rgba(255,77,106,0.12);
+            --green: #2ecc8a;
+            --green-soft: rgba(46,204,138,0.12);
+            --blue: #3daeff;
+            --blue-soft: rgba(61,174,255,0.12);
+            --accent: #7c6aff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 36px 24px 60px;
+        }
+
+        /* ─── Header ─────────────────────────── */
+        header {
+            text-align: center;
+            margin-bottom: 52px;
+        }
+        .header-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text);
+        }
+        header h1 span { color: var(--accent); }
+        .header-line {
+            width: 48px; height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin: 16px auto 0;
+        }
+
+        /* ─── Live Badge ─────────────────────── */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 20px;
+        }
+        .live-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* ─── Section Title ──────────────────── */
+        .section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        /* ─── Dashboard Grid ─────────────────── */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto 56px;
+        }
+
+        /* ─── Dustbin Card ───────────────────── */
+        .dustbin-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .dustbin-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .bin-icon {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            display: grid; place-items: center;
+            font-size: 18px;
+        }
+        .bin-icon.b1 { background: rgba(124,106,255,0.15); }
+        .bin-icon.b2 { background: rgba(255,165,0,0.12); }
+        .bin-icon.b3 { background: rgba(255,80,60,0.12); }
+
+        .card-header h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .card-header .bin-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ─── Subdivision Row ────────────────── */
+        .sub-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 13px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            transition: background 0.2s;
+        }
+        .sub-row:last-child { margin-bottom: 0; }
+        .sub-row.red   { background: var(--red-soft);   border-color: rgba(255,77,106,0.2); }
+        .sub-row.green { background: var(--green-soft); border-color: rgba(46,204,138,0.2); }
+        .sub-row.blue  { background: var(--blue-soft);  border-color: rgba(61,174,255,0.2); }
+
+        .sub-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sub-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+        .sub-row.red   .sub-label { color: var(--red); }
+        .sub-row.green .sub-label { color: var(--green); }
+        .sub-row.blue  .sub-label { color: var(--blue); }
+
+        .sub-pct {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .sub-row.red   .sub-pct { color: var(--red); }
+        .sub-row.green .sub-pct { color: var(--green); }
+        .sub-row.blue  .sub-pct { color: var(--blue); }
+
+        .bar-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.6s cubic-bezier(.4,0,.2,1);
+        }
+        .sub-row.red   .bar-fill { background: var(--red); }
+        .sub-row.green .bar-fill { background: var(--green); }
+        .sub-row.blue  .bar-fill { background: var(--blue); }
+
+        .sub-time {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ─── Table Section ──────────────────── */
+        .table-section {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .table-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead th {
+            background: var(--surface2);
+            color: var(--muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        tbody td {
+            padding: 13px 18px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: var(--text);
+        }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .chip.red   { background: var(--red-soft);   color: var(--red);   }
+        .chip.green { background: var(--green-soft); color: var(--green); }
+        .chip.blue  { background: var(--blue-soft);  color: var(--blue);  }
+        .chip::before {
+            content: '';
+            width: 5px; height: 5px;
+            border-radius: 50%;
+        }
+        .chip.red::before   { background: var(--red);   }
+        .chip.green::before { background: var(--green); }
+        .chip.blue::before  { background: var(--blue);  }
+
+        .fill-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+        }
+        .fill-num.red   { color: var(--red);   }
+        .fill-num.green { color: var(--green); }
+        .fill-num.blue  { color: var(--blue);  }
+
+        .mono { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); }
+
+        /* ─── Empty / Error state ────────────── */
+        .empty-row td {
+            text-align: center;
+            color: var(--muted);
+            padding: 36px !important;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <p class="header-eyebrow">IoT Waste Management System</p>
+        <h1>Smart <span>Dustbin</span> Monitor</h1>
+        <div class="header-line"></div>
+        <div class="live-badge">
+            <span class="live-dot"></span>
+            <span id="lastUpdated">Connecting…</span>
+        </div>
+    </header>
+
+    <!-- ─── Cards ─────────────────────────────── -->
+    <div style="max-width:1100px;margin:0 auto 14px;">
+        <p class="section-title">Live Fill Levels</p>
+    </div>
+    <div class="dashboard" id="dashboard">
+        <!-- populated by JS -->
+    </div>
+
+    <!-- ─── Table ─────────────────────────────── -->
+    <div class="table-section">
+        <p class="section-title">All Records</p>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Dustbin</th>
+                        <th>Subdivision</th>
+                        <th>Fill Level</th>
+                    </tr>
+                </thead>
+                <tbody id="tabledata">
+                    <tr class="empty-row"><td colspan="4">Loading data…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const BIN_ICONS = { 1: '🗑️', 2: '♻️', 3: '🚯' };
+        const BIN_ICON_CLASS = { 1: 'b1', 2: 'b2', 3: 'b3' };
+
+        /* ── Build one dustbin card from /latest data ── */
+        function buildCard(binNumber, binData) {
+            const subs = ['red', 'green', 'blue'];
+
+            const subRows = subs.map(sub => {
+                const info = binData?.[sub] || { level: 0, time: '' };
+                const lvl = parseInt(info.level) || 0;
+                const time = info.time || 'No data yet';
+
+                return `
+                    <div class="sub-row ${sub}">
+                        <div class="sub-top">
+                            <span class="sub-label">${sub.toUpperCase()}</span>
+                            <span class="sub-pct">${lvl}%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width:${lvl}%"></div>
+                        </div>
+                        <div class="sub-time">${time}</div>
+                    </div>`;
+            }).join('');
+
+            return `
+                <div class="dustbin-card">
+                    <div class="card-header">
+                        <div class="bin-icon ${BIN_ICON_CLASS[binNumber]}">${BIN_ICONS[binNumber]}</div>
+                        <div>
+                            <h3>Dustbin ${binNumber}</h3>
+                            <div class="bin-sub">RGB Subdivisions</div>
+                        </div>
+                    </div>
+                    ${subRows}
+                </div>`;
+        }
+
+        /* ── Flatten JSON object → table rows ── */
+        function buildTableRows(db) {
+            const rows = [];
+
+            // db = { "1": { red: {level, time}, green: {…}, blue: {…} }, "2": {…} … }
+            Object.entries(db).forEach(([dustbinId, subs]) => {
+                ['red', 'green', 'blue'].forEach(sub => {
+                    const info = subs?.[sub];
+                    if (!info || (info.level === 0 && !info.time)) return;
+                    rows.push({
+                        time: info.time || '',
+                        dustbin: dustbinId,
+                        sub,
+                        level: parseInt(info.level) || 0
+                    });
+                });
+            });
+
+            // Sort newest first (lexicographic on ISO-style timestamp works fine here)
+            rows.sort((a, b) => b.time.localeCompare(a.time));
+
+            if (!rows.length) {
+                return '<tr class="empty-row"><td colspan="4">No data available yet</td></tr>';
+            }
+
+            return rows.map(r => `
+                <tr>
+                    <td class="mono">${r.time}</td>
+                    <td>Dustbin ${r.dustbin}</td>
+                    <td><span class="chip ${r.sub}">${r.sub.toUpperCase()}</span></td>
+                    <td><span class="fill-num ${r.sub}">${r.level}%</span></td>
+                </tr>`).join('');
+        }
+
+        /* ── Main fetch & render loop ── */
+        function loadData() {
+            // 1. /latest  →  dashboard cards
+            fetch('http://127.0.0.1:3000/latest')
+                .then(r => r.json())
+                .then(data => {
+                    // data = { bin1: {…}, bin2: {…}, bin3: {…} }
+                    let html = '';
+                    for (let i = 1; i <= 3; i++) {
+                        html += buildCard(i, data[`bin${i}`] || {});
+                    }
+                    document.getElementById('dashboard').innerHTML = html;
+                    document.getElementById('lastUpdated').textContent =
+                        'Last updated: ' + new Date().toLocaleTimeString();
+                })
+                .catch(err => {
+                    console.error('Latest fetch error:', err);
+                    document.getElementById('lastUpdated').textContent = 'Server unreachable';
+                });
+
+            // 2. /data  →  table  (returns same JSON object keyed by dustbin ID)
+            fetch('http://127.0.0.1:3000/data')
+                .then(r => r.json())
+                .then(db => {
+                    document.getElementById('tabledata').innerHTML = buildTableRows(db);
+                })
+                .catch(err => {
+                    console.error('Data fetch error:', err);
+                    document.getElementById('tabledata').innerHTML =
+                        '<tr class="empty-row"><td colspan="4">Could not reach server. Is Flask running on port 3000?</td></tr>';
+                });
+        }
+
+        loadData();
+        setInterval(loadData, 3000);
+    </script>
+</body>
+</html>
