@@ -1,97 +1,107 @@
 from flask import Flask, request, jsonify, send_from_directory
-import os
-import json
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
-DATA_FILE = "dustbin_data.json"
+# SQLite DB config
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dustbin.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Create JSON file if not present
-if not os.path.exists(DATA_FILE):
-    with open(DATA_FILE, "w") as f:
-        json.dump({}, f)
+db = SQLAlchemy(app)
+
+# ---------- DATABASE MODEL ----------
+class Dustbin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    dustbin_id = db.Column(db.String(50))
+    subdivision = db.Column(db.String(10))  # red/green/blue
+    level = db.Column(db.Integer)
+    time = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Create DB
+with app.app_context():
+    db.create_all()
 
 # ---------- HTML Dashboard ----------
 @app.route("/")
 def dashboard():
     return send_from_directory(".", "index.html")
 
-# ---------- Receive data from EDGE ----------
+# ---------- Receive data ----------
 @app.route('/data', methods=['POST'])
 def receive_data():
     try:
         data = request.json
 
         dustbin_id = str(data["dustbin_id"])
-        subdivision = data["subdivision"].lower()   # red/green/blue
+        subdivision = data["subdivision"].lower()
         level = int(data["fill_level"])
-        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Load existing data
-        with open(DATA_FILE, "r") as f:
-            db = json.load(f)
+        entry = Dustbin(
+            dustbin_id=dustbin_id,
+            subdivision=subdivision,
+            level=level,
+            time=datetime.now()
+        )
 
-        # Initialize if new dustbin
-        if dustbin_id not in db:
-            db[dustbin_id] = {
-                "red": {"level": 0, "time": ""},
-                "green": {"level": 0, "time": ""},
-                "blue": {"level": 0, "time": ""}
-            }
-
-        # Update ONLY that subdivision
-        db[dustbin_id][subdivision] = {
-            "level": level,
-            "time": time
-        }
-
-        # Save back
-        with open(DATA_FILE, "w") as f:
-            json.dump(db, f, indent=4)
+        db.session.add(entry)
+        db.session.commit()
 
         print(f"[EDGE] Dustbin {dustbin_id} | {subdivision} = {level}%")
 
-        return jsonify({"status": "updated"})
+        return jsonify({"status": "stored in DB"})
 
     except Exception as e:
         print("Error:", e)
         return jsonify({"status": "error"}), 500
 
-
-# ---------- Send ALL data ----------
+# ---------- Get ALL data ----------
 @app.route('/data', methods=['GET'])
 def send_data():
     try:
-        with open(DATA_FILE, "r") as f:
-            db = json.load(f)
-        return jsonify(db)
+        entries = Dustbin.query.all()
+
+        result = []
+        for e in entries:
+            result.append({
+                "dustbin_id": e.dustbin_id,
+                "subdivision": e.subdivision,
+                "level": e.level,
+                "time": e.time.strftime("%Y-%m-%d %H:%M:%S")
+            })
+
+        return jsonify(result)
+
     except Exception as e:
         print("Error:", e)
-        return jsonify({})
+        return jsonify([])
 
-
-# ---------- Get latest (dashboard friendly) ----------
+# ---------- Latest per bin ----------
 @app.route('/latest', methods=['GET'])
 def get_latest():
     try:
-        with open(DATA_FILE, "r") as f:
-            db = json.load(f)
+        bins = {}
 
-        # Format for dashboard (optional)
-        formatted = {}
+        entries = Dustbin.query.order_by(Dustbin.time.desc()).all()
 
-        for dustbin_id, bins in db.items():
-            formatted[f"bin{dustbin_id}"] = bins
+        for e in entries:
+            if e.dustbin_id not in bins:
+                bins[e.dustbin_id] = {}
 
-        return jsonify(formatted)
+            if e.subdivision not in bins[e.dustbin_id]:
+                bins[e.dustbin_id][e.subdivision] = {
+                    "level": e.level,
+                    "time": e.time.strftime("%Y-%m-%d %H:%M:%S")
+                }
+
+        return jsonify(bins)
 
     except Exception as e:
         print("Error:", e)
         return jsonify({})
 
-
 # ---------- MAIN ----------
 if __name__ == '__main__':
-    #app.run(host="0.0.0.0",port=3000, debug=True)
-    app.run(host="0.0.0.0",port=3000)
+    app.run(host="0.0.0.0", port=3000,
+            ssl_context=('cert.pem', 'key.pem'))

@@ -7,19 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --bg: #0d0f14;
-            --surface: #161922;
-            --surface2: #1e2230;
-            --border: #2a2f42;
-            --text: #e8eaf0;
-            --muted: #6b7280;
-            --red: #ff4d6a;
-            --red-soft: rgba(255,77,106,0.12);
-            --green: #2ecc8a;
-            --green-soft: rgba(46,204,138,0.12);
-            --blue: #3daeff;
-            --blue-soft: rgba(61,174,255,0.12);
-            --accent: #7c6aff;
+            --bg: #f4f6f9;
+            --surface: #ffffff;
+            --surface2: #f0f2f6;
+            --border: #e2e6ef;
+            --text: #1a1d27;
+            --muted: #7a8299;
+            --red: #e0284a;
+            --red-soft: rgba(224,40,74,0.08);
+            --green: #15a870;
+            --green-soft: rgba(21,168,112,0.08);
+            --blue: #1a7fd4;
+            --blue-soft: rgba(26,127,212,0.08);
+            --accent: #5b48e8;
+            --accent-soft: rgba(91,72,232,0.08);
+            --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -64,7 +66,7 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            background: var(--surface2);
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 5px 14px;
@@ -72,6 +74,7 @@
             font-size: 11px;
             color: var(--muted);
             margin-top: 20px;
+            box-shadow: var(--shadow);
         }
         .live-dot {
             width: 7px; height: 7px;
@@ -110,10 +113,11 @@
             border-radius: 16px;
             padding: 22px;
             transition: transform 0.25s, box-shadow 0.25s;
+            box-shadow: var(--shadow);
         }
         .dustbin-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);
         }
 
         .card-header {
@@ -128,11 +132,11 @@
             width: 38px; height: 38px;
             border-radius: 10px;
             display: grid; place-items: center;
-            font-size: 18px;
+            font-size: 17px;
         }
-        .bin-icon.b1 { background: rgba(124,106,255,0.15); }
-        .bin-icon.b2 { background: rgba(255,165,0,0.12); }
-        .bin-icon.b3 { background: rgba(255,80,60,0.12); }
+        .bin-icon.b1 { background: var(--accent-soft); }
+        .bin-icon.b2 { background: rgba(255,165,0,0.10); }
+        .bin-icon.b3 { background: rgba(224,40,74,0.08); }
 
         .card-header h3 {
             font-size: 15px;
@@ -157,9 +161,9 @@
             transition: background 0.2s;
         }
         .sub-row:last-child { margin-bottom: 0; }
-        .sub-row.red   { background: var(--red-soft);   border-color: rgba(255,77,106,0.2); }
-        .sub-row.green { background: var(--green-soft); border-color: rgba(46,204,138,0.2); }
-        .sub-row.blue  { background: var(--blue-soft);  border-color: rgba(61,174,255,0.2); }
+        .sub-row.red   { background: var(--red-soft);   border-color: rgba(224,40,74,0.15); }
+        .sub-row.green { background: var(--green-soft); border-color: rgba(21,168,112,0.15); }
+        .sub-row.blue  { background: var(--blue-soft);  border-color: rgba(26,127,212,0.15); }
 
         .sub-top {
             display: flex;
@@ -187,8 +191,8 @@
 
         .bar-track {
             width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.07);
+            height: 5px;
+            background: rgba(0,0,0,0.07);
             border-radius: 999px;
             overflow: hidden;
         }
@@ -217,6 +221,7 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
+            box-shadow: var(--shadow);
         }
         table {
             width: 100%;
@@ -236,11 +241,11 @@
         tbody td {
             padding: 13px 18px;
             font-size: 13px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
             color: var(--text);
         }
         tbody tr:last-child td { border-bottom: none; }
-        tbody tr:hover td { background: rgba(255,255,255,0.02); }
+        tbody tr:hover td { background: rgba(0,0,0,0.015); }
 
         .chip {
             display: inline-flex;
@@ -253,9 +258,9 @@
             font-weight: 700;
             letter-spacing: 1px;
         }
-        .chip.red   { background: var(--red-soft);   color: var(--red);   }
-        .chip.green { background: var(--green-soft); color: var(--green); }
-        .chip.blue  { background: var(--blue-soft);  color: var(--blue);  }
+        .chip.red   { background: var(--red-soft);   color: var(--red);   border: 1px solid rgba(224,40,74,0.15); }
+        .chip.green { background: var(--green-soft); color: var(--green); border: 1px solid rgba(21,168,112,0.15); }
+        .chip.blue  { background: var(--blue-soft);  color: var(--blue);  border: 1px solid rgba(26,127,212,0.15); }
         .chip::before {
             content: '';
             width: 5px; height: 5px;
@@ -268,6 +273,7 @@
         .fill-num {
             font-family: 'Space Mono', monospace;
             font-size: 13px;
+            font-weight: 600;
         }
         .fill-num.red   { color: var(--red);   }
         .fill-num.green { color: var(--green); }
@@ -279,7 +285,7 @@
         .empty-row td {
             text-align: center;
             color: var(--muted);
-            padding: 36px !important;
+            padding: 40px !important;
             font-size: 13px;
         }
     </style>
@@ -325,7 +331,7 @@
     </div>
 
     <script>
-        const BIN_ICONS = { 1: '🗑️', 2: '♻️', 3: '🚯' };
+        const BIN_ICONS = { 1: '1', 2: '2', 3: '3' };
         const BIN_ICON_CLASS = { 1: 'b1', 2: 'b2', 3: 'b3' };
 
         /* ── Build one dustbin card from /latest data ── */
@@ -364,49 +370,31 @@
         }
 
         /* ── Flatten JSON object → table rows ── */
-        function buildTableRows(db) {
-            const rows = [];
+function buildTableRows(data) {
+    if (!data || data.length === 0) {
+        return '<tr class="empty-row"><td colspan="4">No data available yet</td></tr>';
+    }
 
-            // db = { "1": { red: {level, time}, green: {…}, blue: {…} }, "2": {…} … }
-            Object.entries(db).forEach(([dustbinId, subs]) => {
-                ['red', 'green', 'blue'].forEach(sub => {
-                    const info = subs?.[sub];
-                    if (!info || (info.level === 0 && !info.time)) return;
-                    rows.push({
-                        time: info.time || '',
-                        dustbin: dustbinId,
-                        sub,
-                        level: parseInt(info.level) || 0
-                    });
-                });
-            });
+    // Sort latest first
+    data.sort((a, b) => b.time.localeCompare(a.time));
 
-            // Sort newest first (lexicographic on ISO-style timestamp works fine here)
-            rows.sort((a, b) => b.time.localeCompare(a.time));
-
-            if (!rows.length) {
-                return '<tr class="empty-row"><td colspan="4">No data available yet</td></tr>';
-            }
-
-            return rows.map(r => `
-                <tr>
-                    <td class="mono">${r.time}</td>
-                    <td>Dustbin ${r.dustbin}</td>
-                    <td><span class="chip ${r.sub}">${r.sub.toUpperCase()}</span></td>
-                    <td><span class="fill-num ${r.sub}">${r.level}%</span></td>
-                </tr>`).join('');
-        }
-
-        /* ── Main fetch & render loop ── */
+    return data.map(r => `
+        <tr>
+            <td class="mono">${r.time}</td>
+            <td>Dustbin ${r.dustbin_id}</td>
+            <td><span class="chip ${r.subdivision}">${r.subdivision.toUpperCase()}</span></td>
+            <td><span class="fill-num ${r.subdivision}">${r.level}%</span></td>
+        </tr>
+    `).join('');
+}
+	/* ── Main fetch & render loop ── */
         function loadData() {
-            // 1. /latest  →  dashboard cards
-            fetch('http://127.0.0.1:3000/latest')
+            fetch('/latest')
                 .then(r => r.json())
                 .then(data => {
-                    // data = { bin1: {…}, bin2: {…}, bin3: {…} }
                     let html = '';
                     for (let i = 1; i <= 3; i++) {
-                        html += buildCard(i, data[`bin${i}`] || {});
+			    html += buildCard(i, data[i] || {});
                     }
                     document.getElementById('dashboard').innerHTML = html;
                     document.getElementById('lastUpdated').textContent =
@@ -417,8 +405,7 @@
                     document.getElementById('lastUpdated').textContent = 'Server unreachable';
                 });
 
-            // 2. /data  →  table  (returns same JSON object keyed by dustbin ID)
-            fetch('http://127.0.0.1:3000/data')
+            fetch('/data')
                 .then(r => r.json())
                 .then(db => {
                     document.getElementById('tabledata').innerHTML = buildTableRows(db);
@@ -426,7 +413,7 @@
                 .catch(err => {
                     console.error('Data fetch error:', err);
                     document.getElementById('tabledata').innerHTML =
-                        '<tr class="empty-row"><td colspan="4">Could not reach server. Is Flask running on port 3000?</td></tr>';
+                        '<tr class="empty-row"><td colspan="4">Could not reach server. Is it running on port 3000?</td></tr>';
                 });
         }
 
