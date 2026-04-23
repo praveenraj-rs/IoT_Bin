@@ -1,0 +1,255 @@
+[
+    {
+        "id": "953423eea5e7fdae",
+        "type": "tab",
+        "label": "Server_Test",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2ebc1f581c70c566",
+        "type": "inject",
+        "z": "953423eea5e7fdae",
+        "name": "Send RED (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":3,\"subdivision\":\"red\",\"fill_level\":98}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "622d4e8fd6832f66"
+            ]
+        ]
+    },
+    {
+        "id": "1363a11d07bc766f",
+        "type": "inject",
+        "z": "953423eea5e7fdae",
+        "name": "Send GREEN (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"green\",\"fill_level\":70}",
+        "payloadType": "json",
+        "x": 230,
+        "y": 310,
+        "wires": [
+            [
+                "622d4e8fd6832f66"
+            ]
+        ]
+    },
+    {
+        "id": "01e9532698f0651c",
+        "type": "inject",
+        "z": "953423eea5e7fdae",
+        "name": "Send BLUE (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"blue\",\"fill_level\":20}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 360,
+        "wires": [
+            [
+                "622d4e8fd6832f66"
+            ]
+        ]
+    },
+    {
+        "id": "622d4e8fd6832f66",
+        "type": "http request",
+        "z": "953423eea5e7fdae",
+        "name": "POST /data",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://3.108.218.127:3000/data",
+        "tls": "88569fb7b9ba4de7",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 460,
+        "y": 310,
+        "wires": [
+            [
+                "b772a6909e53c7bb"
+            ]
+        ]
+    },
+    {
+        "id": "b772a6909e53c7bb",
+        "type": "debug",
+        "z": "953423eea5e7fdae",
+        "name": "POST Response",
+        "active": true,
+        "complete": "payload",
+        "x": 690,
+        "y": 310,
+        "wires": []
+    },
+    {
+        "id": "2a550635114420e8",
+        "type": "inject",
+        "z": "953423eea5e7fdae",
+        "name": "Fetch Latest",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "x": 210,
+        "y": 480,
+        "wires": [
+            [
+                "a734ea3f0bbb07fe"
+            ]
+        ]
+    },
+    {
+        "id": "a734ea3f0bbb07fe",
+        "type": "http request",
+        "z": "953423eea5e7fdae",
+        "name": "GET /latest",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://3.108.218.127:3000/latest",
+        "tls": "88569fb7b9ba4de7",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 460,
+        "y": 480,
+        "wires": [
+            [
+                "4ad1d92006ad7d56"
+            ]
+        ]
+    },
+    {
+        "id": "4ad1d92006ad7d56",
+        "type": "debug",
+        "z": "953423eea5e7fdae",
+        "name": "Latest Data",
+        "active": true,
+        "complete": "payload",
+        "x": 690,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "3e6ffb113ec83a80",
+        "type": "inject",
+        "z": "953423eea5e7fdae",
+        "name": "Fetch All Data",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "x": 210,
+        "y": 620,
+        "wires": [
+            [
+                "564d72cd417e383e"
+            ]
+        ]
+    },
+    {
+        "id": "564d72cd417e383e",
+        "type": "http request",
+        "z": "953423eea5e7fdae",
+        "name": "GET /data",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://3.108.218.127:3000/data",
+        "tls": "88569fb7b9ba4de7",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 460,
+        "y": 620,
+        "wires": [
+            [
+                "6b66598329d0328f"
+            ]
+        ]
+    },
+    {
+        "id": "6b66598329d0328f",
+        "type": "debug",
+        "z": "953423eea5e7fdae",
+        "name": "All Data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "88569fb7b9ba4de7",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    }
+]

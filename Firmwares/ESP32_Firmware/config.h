@@ -7,13 +7,13 @@
 #define DUSTBIN_ID 3
 
 // --- WIFI ---
-extern const char* ssid     = "praveenrajrs";
+extern const char* ssid     = "iot";
 extern const char* password = "12345678";
 
 
 // --- Edge Server ---
-extern const char* EDGE_CLASSIFY_URL = "https://192.168.75.95:5000/upload";
-extern const char* EDGE_FILL_URL     = "https://192.168.75.95:5000/bin_fill";
+extern const char* EDGE_CLASSIFY_URL = "https://192.168.189.215:5000/upload";
+extern const char* EDGE_FILL_URL     = "https://192.168.189.215:5000/bin_fill";
 
 
 #endif

@@ -1,0 +1,170 @@
+[
+    {
+        "id": "d083f638ad97edcb",
+        "type": "tab",
+        "label": "Edge_Test",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d35873bb8d0157bb",
+        "type": "inject",
+        "z": "d083f638ad97edcb",
+        "name": "Send Fill Data",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"dustbin_id\":3,\"subdivision\":\"blue\",\"fill_level\":99}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 360,
+        "wires": [
+            [
+                "d6f8a5dc37e356a5"
+            ]
+        ]
+    },
+    {
+        "id": "d6f8a5dc37e356a5",
+        "type": "http request",
+        "z": "d083f638ad97edcb",
+        "name": "POST /bin_fill",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://192.168.156.215:5000/bin_fill",
+        "tls": "88569fb7b9ba4de7",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": true,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 470,
+        "y": 360,
+        "wires": [
+            [
+                "2ad7982bc02a39c2"
+            ]
+        ]
+    },
+    {
+        "id": "2ad7982bc02a39c2",
+        "type": "debug",
+        "z": "d083f638ad97edcb",
+        "name": "Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "1733990ac3a1bfc6",
+        "type": "inject",
+        "z": "d083f638ad97edcb",
+        "name": "Trigger Image Send",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 170,
+        "y": 240,
+        "wires": [
+            [
+                "5096143138cc913e"
+            ]
+        ]
+    },
+    {
+        "id": "5096143138cc913e",
+        "type": "file in",
+        "z": "d083f638ad97edcb",
+        "name": "Read Image",
+        "filename": "/home/praveenrajrs/Desktop/IoT_Bin/Test/test.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "338863fa941b6ac5"
+            ]
+        ]
+    },
+    {
+        "id": "338863fa941b6ac5",
+        "type": "http request",
+        "z": "d083f638ad97edcb",
+        "name": "POST /upload",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://192.168.156.215:5000/upload",
+        "tls": "88569fb7b9ba4de7",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "image/jpeg"
+            }
+        ],
+        "x": 570,
+        "y": 240,
+        "wires": [
+            [
+                "e5227d4047544ea0"
+            ]
+        ]
+    },
+    {
+        "id": "e5227d4047544ea0",
+        "type": "debug",
+        "z": "d083f638ad97edcb",
+        "name": "YOLO Response",
+        "active": true,
+        "tosidebar": true,
+        "complete": "payload",
+        "x": 770,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "88569fb7b9ba4de7",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    }
+]

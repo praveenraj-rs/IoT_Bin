@@ -1,0 +1,602 @@
+[
+    {
+        "id": "7112f84ec11eca5e",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "inject_test",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send Fill Data",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"dustbin_id\":3,\"subdivision\":\"blue\",\"fill_level\":99}",
+        "payloadType": "json",
+        "x": 230,
+        "y": 260,
+        "wires": [
+            [
+                "http_request_node"
+            ]
+        ]
+    },
+    {
+        "id": "http_request_node",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "POST /bin_fill",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.198.9:5000/bin_fill",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": true,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "debug_node"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "inject_img",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Trigger Image Send",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "file_node"
+            ]
+        ]
+    },
+    {
+        "id": "file_node",
+        "type": "file in",
+        "z": "7112f84ec11eca5e",
+        "name": "Read Image",
+        "filename": "/home/praveenrajrs/Desktop/Projects/IoT_Bin/Edge_Platform/Test/test1.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 360,
+        "wires": [
+            [
+                "http_img"
+            ]
+        ]
+    },
+    {
+        "id": "http_img",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "POST /upload",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.249.106:5000/upload",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "image/jpeg"
+            }
+        ],
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "debug_img"
+            ]
+        ]
+    },
+    {
+        "id": "debug_img",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "YOLO Response",
+        "active": true,
+        "tosidebar": true,
+        "complete": "payload",
+        "x": 770,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "inject_post_red",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send RED (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":3,\"subdivision\":\"red\",\"fill_level\":24}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 460,
+        "wires": [
+            [
+                "http_post"
+            ]
+        ]
+    },
+    {
+        "id": "inject_post_green",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send GREEN (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"green\",\"fill_level\":70}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 510,
+        "wires": [
+            [
+                "http_post"
+            ]
+        ]
+    },
+    {
+        "id": "inject_post_blue",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send BLUE (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"blue\",\"fill_level\":20}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 560,
+        "wires": [
+            [
+                "http_post"
+            ]
+        ]
+    },
+    {
+        "id": "http_post",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "POST /data",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://3.108.218.127:3000/data",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 420,
+        "y": 510,
+        "wires": [
+            [
+                "debug_post"
+            ]
+        ]
+    },
+    {
+        "id": "debug_post",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "POST Response",
+        "active": true,
+        "complete": "payload",
+        "x": 650,
+        "y": 510,
+        "wires": []
+    },
+    {
+        "id": "inject_get",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Fetch Latest",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "x": 170,
+        "y": 660,
+        "wires": [
+            [
+                "http_get"
+            ]
+        ]
+    },
+    {
+        "id": "http_get",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "GET /latest",
+        "method": "GET",
+        "ret": "obj",
+        "url": "http://127.0.0.1:3000/latest",
+        "x": 420,
+        "y": 660,
+        "wires": [
+            [
+                "debug_get"
+            ]
+        ]
+    },
+    {
+        "id": "debug_get",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "Latest Data",
+        "active": true,
+        "complete": "payload",
+        "x": 650,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "a49aaf43209c5506",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send RED (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"red\",\"fill_level\":88}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 820,
+        "wires": [
+            [
+                "2b43055575901f8b"
+            ]
+        ]
+    },
+    {
+        "id": "99b09080dc534df3",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send GREEN (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"green\",\"fill_level\":70}",
+        "payloadType": "json",
+        "x": 210,
+        "y": 870,
+        "wires": [
+            [
+                "2b43055575901f8b"
+            ]
+        ]
+    },
+    {
+        "id": "907fe372c8f06c7e",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send BLUE (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"blue\",\"fill_level\":20}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 920,
+        "wires": [
+            [
+                "2b43055575901f8b"
+            ]
+        ]
+    },
+    {
+        "id": "2b43055575901f8b",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "POST /data",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://bin-server-lemon.vercel.app/data",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 440,
+        "y": 870,
+        "wires": [
+            [
+                "44f434d4b2b05c5c"
+            ]
+        ]
+    },
+    {
+        "id": "44f434d4b2b05c5c",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "POST Response",
+        "active": true,
+        "complete": "payload",
+        "x": 670,
+        "y": 870,
+        "wires": []
+    },
+    {
+        "id": "cb37e1db9a5cb5b5",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send RED (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"red\",\"fill_level\":45}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 1060,
+        "wires": [
+            [
+                "c4868711c453dd60"
+            ]
+        ]
+    },
+    {
+        "id": "e1df9fffcae88ff5",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send GREEN (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"green\",\"fill_level\":70}",
+        "payloadType": "json",
+        "x": 210,
+        "y": 1110,
+        "wires": [
+            [
+                "c4868711c453dd60"
+            ]
+        ]
+    },
+    {
+        "id": "72fd1136e5eb860d",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Send BLUE (Dustbin 1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "{\"dustbin_id\":1,\"subdivision\":\"blue\",\"fill_level\":20}",
+        "payloadType": "json",
+        "x": 200,
+        "y": 1160,
+        "wires": [
+            [
+                "c4868711c453dd60"
+            ]
+        ]
+    },
+    {
+        "id": "c4868711c453dd60",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "POST to Vercel",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://bin-server-lemon.vercel.app/data",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 440,
+        "y": 1110,
+        "wires": [
+            [
+                "8e0ee25926c6699c"
+            ]
+        ]
+    },
+    {
+        "id": "8e0ee25926c6699c",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "POST Response",
+        "active": true,
+        "tosidebar": true,
+        "complete": "payload",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 1110,
+        "wires": []
+    },
+    {
+        "id": "1eb4567ad7fa37c2",
+        "type": "inject",
+        "z": "7112f84ec11eca5e",
+        "name": "Fetch Latest",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "x": 200,
+        "y": 1260,
+        "wires": [
+            [
+                "6d5d948db1718abf"
+            ]
+        ]
+    },
+    {
+        "id": "6d5d948db1718abf",
+        "type": "http request",
+        "z": "7112f84ec11eca5e",
+        "name": "GET Latest",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://bin-server-lemon.vercel.app/latest",
+        "x": 440,
+        "y": 1260,
+        "wires": [
+            [
+                "f308efba60be08b5"
+            ]
+        ]
+    },
+    {
+        "id": "f308efba60be08b5",
+        "type": "debug",
+        "z": "7112f84ec11eca5e",
+        "name": "Latest Data",
+        "active": true,
+        "complete": "payload",
+        "x": 670,
+        "y": 1260,
+        "wires": []
+    }
+]
